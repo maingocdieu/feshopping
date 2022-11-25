@@ -20,9 +20,10 @@ function App() {
   const location = useLocation();
   const { auth, setAuth } = useAuth();
   useEffect(() => {
-      if (location.pathname === "/") {
+      if (location.pathname === "/" || location.pathname === "/login") {
+        console.log("dada");
         if (auth?.roles[0]?.authority === "USER") {
-          navigate("/user");
+          navigate("/user", {replace: true});
         }
 
         if (auth?.roles[0]?.authority === "ADMIN") {
@@ -30,8 +31,6 @@ function App() {
             replace: true,
           });
         }
-      } else {
-        navigate(location.pathname);
       }
 
   }, [auth]);
@@ -39,7 +38,7 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
+      <Route  element={<RequireAuth allowedRoles={[ROLES.User]} />}>
         <Route path="/user" element={<User />} />
         <Route path="/user/insert" element={<Insert />} />
       </Route>
