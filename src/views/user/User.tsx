@@ -1,9 +1,34 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const User = () => {
-    return (
-        <>H1 day la trang user</>
-    )
-}
+  const navigate = useNavigate();
+  return (
+    <>
+      <button
+        onClick={() => {
+          navigate("/login");
+        }}
+      >
+        Login
+      </button>
+      <button
+        onClick={() => {
+          navigate("/login");
+        }}
+      >
+        Logout
+      </button>
+
+      <button
+        onClick={() => {
+          navigate("/user/insert");
+        }}
+      >
+        insert
+      </button>
+
+    </>
+  );
+};
 
 export default User;

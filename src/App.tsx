@@ -1,50 +1,53 @@
-import { useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { useEffect, useState } from "react";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import useAuth from "./hooks/userAuth";
+import Admin from "./views/admin/Admin";
 
-import { Login } from './views/auth/Login'
-import Layout from './views/Layout'
-import RequireAuth from './views/RequireAuth'
+import { Login } from "./views/auth/Login";
+import Layout from "./views/Layout";
+import RequireAuth from "./views/RequireAuth";
+import Insert from "./views/user/insert/Insert";
+import User from "./views/user/User";
 
 const ROLES = {
-  'User': 2001,
-  'Editor': 1984,
-  'Admin': 5150
-}
+  User: "USER",
+  Editor: 1984,
+  Admin: "ADMIN",
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { auth, setAuth } = useAuth();
+  useEffect(() => {
+      if (location.pathname === "/") {
+        if (auth?.roles[0]?.authority === "USER") {
+          navigate("/user");
+        }
+
+        if (auth?.roles[0]?.authority === "ADMIN") {
+          navigate("/admin", {
+            replace: true,
+          });
+        }
+      } else {
+        navigate(location.pathname);
+      }
+
+  }, [auth]);
 
   return (
     <Routes>
-    <Route path="/" element={<Layout />}>
-
-      <Route path="login" element={<Login />} />
-
-         {/* we want to protect these routes */}
-         <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-          <Route path="/" element={<Login />} />
-        </Route>
-      {/* <Route path="register" element={<Register />} />
-      <Route path="linkpage" element={<LinkPage />} />
-      <Route path="unauthorized" element={<Unauthorized />} />
-
-
+      <Route path="/login" element={<Login />} />
       <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/user" element={<User />} />
+        <Route path="/user/insert" element={<Insert />} />
       </Route>
-
-
-
       <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-        <Route path="admin" element={<Admin />} />
-      </Route> */}
-
-
-
-
-    </Route>
-  </Routes>
-  )
+        <Route path="/admin" element={<Admin />} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;

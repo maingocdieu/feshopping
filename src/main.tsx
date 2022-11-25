@@ -5,7 +5,7 @@ import App from "./App";
 import { AuthProvider } from "./context/AuthProvider";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
+
     <BrowserRouter>
       <AuthProvider>
         <Routes>
@@ -13,5 +13,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         </Routes>
       </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>
+
 );
