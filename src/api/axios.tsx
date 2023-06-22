@@ -9,4 +9,7 @@ export const api = {
     login: async (data: any) => {
         return (await axios.post<any>('http://localhost:8080/api/auth/signin', data)).data
     },
+    signup: async(data: any) => {
+        return (await axios.post<any>('http://localhost:8080/api/auth/signup', data)).data;
+    }
 }

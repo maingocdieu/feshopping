@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "./hooks/userAuth";
-import Admin from "./views/admin/Admin";
 
+import "./index.css";
 import { Login } from "./views/auth/Login";
-import Layout from "./views/Layout";
+import Header from "./views/user/header/Header";
+import { Register } from "./views/auth/Register";
 import RequireAuth from "./views/RequireAuth";
-import Insert from "./views/user/insert/Insert";
 import User from "./views/user/User";
+import Insert from "./views/user/insert/Insert";
+import Admin from "./views/admin/Admin";
 
 const ROLES = {
   User: "USER",
@@ -19,33 +21,41 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const { auth, setAuth } = useAuth();
+
   useEffect(() => {
-      if (location.pathname === "/" || location.pathname === "/login") {
-        console.log("dada");
-        if (auth?.roles[0]?.authority === "USER") {
-          navigate("/user", {replace: true});
-        }
-
-        if (auth?.roles[0]?.authority === "ADMIN") {
-          navigate("/admin", {
-            replace: true,
-          });
-        }
+    if (location.pathname.startsWith("/login")) {
+      if (auth?.roles[0]?.authority === "USER") {
+        navigate("/", { replace: true });
+      } else if (auth?.roles[0]?.authority === "ADMIN") {
+        navigate("/admin", {
+          replace: true,
+        });
+      } else {
+        navigate("/login", {
+          replace: true,
+        });
       }
+    }
+  }, [location.pathname]);
 
-  }, [auth]);
 
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route  element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-        <Route path="/user" element={<User />} />
-        <Route path="/user/insert" element={<Insert />} />
-      </Route>
-      <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-        <Route path="/admin" element={<Admin />} />
-      </Route>
-    </Routes>
+    <>
+      <Header></Header>
+      <div className="w-[90vw] mx-auto">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
+            <Route path="/" element={<User />} />
+            <Route path="/user/insert" element={<Insert />} />
+          </Route>
+          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+            <Route path="/admin" element={<Admin />} />
+          </Route>
+        </Routes>
+      </div>
+    </>
   );
 }
 

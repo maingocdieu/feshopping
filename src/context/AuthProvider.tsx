@@ -32,22 +32,24 @@ const defaultValue = {
 const AuthContext = createContext(defaultValue as Context);
 
 export const AuthProvider = ({ children }: any) => {
-  const [auth, setAuth] = useState<ContextUser>({
-    user: "",
-    roles: [],
-  } as ContextUser);
-  useEffect(() => {
+  const [auth, setAuth] = useState<ContextUser>(() => {
     let author;
     const items = localStorage.getItem("items");
     if (items) {
       author = JSON.parse(items);
-      setAuth({
+      return {
         user: author.name,
         roles: author.roles,
-      });
-    }
-  }, []);
+      };
+    } else
+      return {
+        user: "",
+        roles: [],
+      } as ContextUser;
+  });
 
+  
+  useEffect(() => {}, []);
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
       {children}
