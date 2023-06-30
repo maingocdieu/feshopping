@@ -16,6 +16,7 @@ type ContextUser = {
 type Roles = {
   authority: string;
 };
+
 type Context = {
   auth: ContextUser;
   setAuth: Dispatch<SetStateAction<ContextUser>>;
@@ -33,9 +34,9 @@ const AuthContext = createContext(defaultValue as Context);
 
 export const AuthProvider = ({ children }: any) => {
   const [auth, setAuth] = useState<ContextUser>(() => {
-    let author;
+    let author: any;
     const items = localStorage.getItem("items");
-    if (items) {
+    if (items&& items !=="undefined") {
       author = JSON.parse(items);
       return {
         user: author.name,

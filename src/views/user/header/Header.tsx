@@ -1,23 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BsChatRightText } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import useAuth from "../../../hooks/userAuth";
+import { useEffect, useState } from "react";
 
 export const MenuItems = [
   {
     title: "Thương hiệu",
     path: "/user/insert",
     cName: "dropdown-link",
+    subMenu: ["Ao", "Quan"],
   },
   {
     title: "Đồng hồ",
     path: "/dong-ho",
     cName: "dropdown-link",
+    subMenu: ["Da banh", "Da bong"],
   },
   {
     title: "Túi xách",
     path: "/tui-xach",
     cName: "dropdown-link",
+    subMenu: ["Ao", "Quan"],
   },
   {
     title: "Nước hoa",
@@ -69,9 +73,20 @@ export const MenuItems = [
 
 const Header = () => {
   const { auth, setAuth } = useAuth();
+  const location = useLocation();
+  const [showNav, setShowNav] = useState<boolean>(false);
+
+  useEffect(() => {
+    if(location.pathname === "/tui-xach") {
+      setShowNav(true);
+    } else {
+      setShowNav(false);
+    }
+  }, [location.pathname]);
   return (
     <>
       <div className="border-b-2 pb-4">
+        {showNav && <h1>Dieu sau doi</h1>}
         <div className="bg-blue-900 h-[40px]">
           <div className="flex justify-between text-white w-[90%] mx-auto leading-[40px]">
             <div className="flex ml-[-10px]">
@@ -86,25 +101,35 @@ const Header = () => {
               </span>
             </div>
             <div className="flex">
-              <div className="relative group hover:hover:bg-gray-50 hover:text-black">
+              <div className="relative group hover:bg-gray-50 hover:text-black">
                 <span className=" hover:cursor-pointer hover:bg-gray-50  block hover:text-black ">
                   Tài khoản
                 </span>
                 <ul className="absolute w-[200px] bg-gray-50 text-black hidden group-hover:block pl-[15px]  group-hover:z-10">
+                  {!auth.user && (
+                    <>
+                      <li className="hover:cursor-pointer hover:underline">
+                        <Link to="/login">Đăng nhập</Link>
+                      </li>
+
+                      <li className="hover:cursor-pointer hover:underline">
+                        <Link to="/register">Đăng kí</Link>
+                      </li>
+                    </>
+                  )}
                   <li className="hover:cursor-pointer hover:underline">
-                    <Link to="/login">Đăng nhập</Link>
-                  </li>
-                  <li className="hover:cursor-pointer hover:underline">
-                    <Link to="/register">Đăng kí</Link>
+                    <Link to="/register">Đằng xuất</Link>
                   </li>
                 </ul>
               </div>
               <span className="ml-[10px] hover:cursor-pointer">Giỏ hàng</span>
-              {auth.user && <div className="rounded-full w-[100%] h-[40px] bg-gray-300 text-center ">
-                <span className="ml-[10px] hover:cursor-pointer ">
-                  {auth.user}
-                </span>
-              </div>}
+              {auth.user && (
+                <div className="rounded-full w-[40px] h-[40px] bg-gray-300 text-center ">
+                  <span className="ml-[10px] hover:cursor-pointer ">
+                    {auth.user}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -140,13 +165,29 @@ const Header = () => {
         <ul className="flex uppercase font-bold text-black mx-auto w-[90%] justify-between h-[50px] leading-[50px]">
           {MenuItems.map((menu, index) => {
             return (
-              <Link
-                key={index}
-                to={menu.path}
-                className="hover:bg-violet-600 hover:text-white hover:cursor-pointer"
-              >
-                {menu.title}
-              </Link>
+              <div className=" group">
+                <Link
+                  key={index}
+                  to={menu.path}
+                  className="hover:bg-violet-600 hover:text-white hover:cursor-pointer"
+                >
+                  {menu.title}
+                </Link>
+                <div className="absolute hidden group-hover:block left-0 right-0 bg-stone-300 top-5px">
+                  <div className="flex justify-around">
+                    {menu.subMenu?.map((menu) => {
+                      return (
+                        <div className="">
+                          <h1>{menu}</h1>
+                          <h1>UUU</h1>
+                          <h1>UUU</h1>
+                          <h1>UUU</h1>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             );
           })}
         </ul>

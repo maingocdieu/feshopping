@@ -18,7 +18,6 @@ export const Swiper = ({
   return (
     <div className="swiper">
       <div className="swiper-wrapper" style={{ gap: `${spaceBetween}px` }}>
-        {/* {children[currentSlide]} */}
         {children.slice(currentSlide, currentSlide + slidePerView)}
       </div>
       <span className="prev" onClick={() => plusSlide(-1)}>

@@ -17,6 +17,7 @@ export const Register = () => {
   const [role, setRole] = useState<Array<string>>([]);
   const [userName, setUserName] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -56,11 +57,11 @@ export const Register = () => {
           }} />
         </div>
         <div className="flex mt-4">
-          <label htmlFor="username" className="mr-4">
+          <label htmlFor="email" className="mr-4">
             Email:
           </label>
-          <input id="username" className="border" type="text" placeholder="email" onChange={(e) => {
-            setUserName(e.target.value);
+          <input id="email" className="border" type="email" placeholder="email" onChange={(e) => {
+            setEmail(e.target.value)
           }} />
         </div>
         <div className="flex mt-4">
@@ -75,19 +76,16 @@ export const Register = () => {
           <button className="bg-gray-800 text-white p-2" onClick={handleRegister}>Register</button>
         </div>
         
-        {/* <div>
+        <div>
           <label htmlFor="">Role</label>
-          <input type="checkbox" value={"admin"} onChange={handleChange} />{" "}
+          <input type="checkbox" value={"ADMIN"} onChange={handleChange} />{" "}
           <label htmlFor="">Admin</label>
-          <input type="checkbox" value={"user"} onChange={handleChange} />{" "}
+          <input type="checkbox" value={"USER"} onChange={handleChange} />{" "}
           <label htmlFor="">User</label>
-        </div>
-        <div className="text-center mt-2">
-          <button className="bg-gray-800 text-white p-2" onClick={handleRegister}>Register</button>
         </div>
         {role.map((element, index) => {
           return <h1 key={index}>{element}</h1>;
-        })} */}
+        })}
       </form>
     </div>
   );
