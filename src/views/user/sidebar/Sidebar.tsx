@@ -97,7 +97,7 @@ export const SideBar = () => {
             />
             <label
               htmlFor="checked-checkbox"
-              className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              className="ml-2 text-sm font-light text-gray-900 dark:text-gray-300"
             >
               Checked state
             </label>

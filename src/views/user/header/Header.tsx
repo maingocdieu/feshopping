@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { BsChatRightText } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import useAuth from "../../../hooks/userAuth";
@@ -9,7 +9,7 @@ export const MenuItems = [
     title: "Thương hiệu",
     path: "/user/insert",
     cName: "dropdown-link",
-    subMenu: ["Ao", "Quan"],
+    subMenu: ["Áo", "Quần"],
   },
   {
     title: "Đồng hồ",
@@ -21,7 +21,7 @@ export const MenuItems = [
     title: "Túi xách",
     path: "/tui-xach",
     cName: "dropdown-link",
-    subMenu: ["Ao", "Quan"],
+    subMenu: ["Áo", "Quần"],
   },
   {
     title: "Nước hoa",
@@ -75,7 +75,11 @@ const Header = () => {
   const { auth, setAuth } = useAuth();
   const location = useLocation();
   const [showNav, setShowNav] = useState<boolean>(false);
-
+  const activeStyles = {
+    fontWeight: "bold",
+    textDecoration: "underline",
+    color: "#161616"
+}
   useEffect(() => {
     if(location.pathname === "/tui-xach") {
       setShowNav(true);
@@ -166,20 +170,20 @@ const Header = () => {
           {MenuItems.map((menu, index) => {
             return (
               <div className=" group">
-                <Link
+                <NavLink
                   key={index}
                   to={menu.path}
-                  className="hover:bg-violet-600 hover:text-white hover:cursor-pointer"
+                  style={({ isActive }) => isActive ? activeStyles : null}
                 >
                   {menu.title}
-                </Link>
+                </NavLink>
                 <div className="absolute hidden group-hover:block left-0 right-0 bg-stone-300 top-5px">
                   <div className="flex justify-around">
                     {menu.subMenu?.map((menu) => {
                       return (
                         <div className="">
                           <h1>{menu}</h1>
-                          <h1>UUU</h1>
+                          <h1>{menu}</h1>
                           <h1>UUU</h1>
                           <h1>UUU</h1>
                         </div>

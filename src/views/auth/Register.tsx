@@ -39,11 +39,14 @@ export const Register = () => {
   const data = await api.signup({
         username: userName,
         password: password,
-        name: "dieu",
-        email: "dieu@gmail.com",
+        name: userName,
+        email: email,
         roles: role
     });
-    console.log(data);
+    if (data) 
+    {
+      alert(("Thanh cong"))
+    }
   }
   return (
     <div className="w-[400px] mx-auto border-solid border-2 border-indigo-600">
@@ -78,9 +81,9 @@ export const Register = () => {
         
         <div>
           <label htmlFor="">Role</label>
-          <input type="checkbox" value={"ADMIN"} onChange={handleChange} />{" "}
+          <input type="checkbox" value={"admin"} onChange={handleChange} />{" "}
           <label htmlFor="">Admin</label>
-          <input type="checkbox" value={"USER"} onChange={handleChange} />{" "}
+          <input type="checkbox" value={"user"} onChange={handleChange} />{" "}
           <label htmlFor="">User</label>
         </div>
         {role.map((element, index) => {
